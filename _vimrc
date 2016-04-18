@@ -21,6 +21,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'ivalkeen/vim-ctrlp-tjump'
 Plugin 'martinlroth/vim-acpi-asl'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'moll/vim-bbye'
 Plugin 'fedorov7/vim-uefi'
 Plugin 'vasconcelloslf/vim-interestingwords'
@@ -30,7 +31,7 @@ Plugin 'wesleyche/SrcExpl'
 Plugin 'vim-scripts/vcscommand.vim'
 Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'godlygeek/csapprox'
-Plugin 'fholgado/minibufexpl.vim'
+"Plugin 'fholgado/minibufexpl.vim'
 "Plugin 'ap/vim-buftabline'
 Plugin 'jlanzarotta/bufexplorer'
 
@@ -128,7 +129,7 @@ set softtabstop=2
 set tabstop=2
 set shiftwidth=2
 set expandtab
-
+au Filetype python setl et ts=2 sw=2 shiftwidth=2
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================= 找到關鍵字會亮起來 ==================="
@@ -243,6 +244,7 @@ inoremap <leader>st <Esc>:CtrlSFToggle<CR>
 let g:ctrlsf_ackprg = 'ag'
 "let g:ctrlsf_case_sensitive = 'yes'
 let g:ctrlsf_context = '-C 3'
+let g:ctrlsf_ignore_dir = ['Build', '.git']
 
 "let g:ctrlsf_position = 'bottom'
 let g:ctrlsf_mapping = {
@@ -360,14 +362,14 @@ let NERD_c_alt_style=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=================== MiniBufExplorer ===================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplorerMoreThanOne = 0
-let g:miniBufExplModSelTarget = 0
-let g:miniBufExplShowBufNumbers = 0
-let g:miniBufExplCycleArround = 1
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
+"let g:miniBufExplorerMoreThanOne = 0
+"let g:miniBufExplModSelTarget = 0
+"let g:miniBufExplShowBufNumbers = 0
+"let g:miniBufExplCycleArround = 1
 "let g:miniBufExplForceSyntaxEnable = 1
-let g:miniBufExplUseSingleClick = 1
+"let g:miniBufExplUseSingleClick = 1
 "let g:miniBufExplVSplit = 25
 "let g:miniBufExplSplitBelow=1
 
@@ -380,16 +382,16 @@ let g:miniBufExplUseSingleClick = 1
 "hi MBEVisibleActiveChanged guifg=#F1266F guibg=fg
 "let g:did_minibufexplorer_syntax_inits = 1
 
-autocmd BufRead,BufNew,BufWritePost :call MiniBufExplorer
+"autocmd BufRead,BufNew,BufWritePost :call MiniBufExplorer
 
 "Alt-Right
-nmap <A-right> :MBEbp<CR>  
+"nmap <A-right> :MBEbp<CR>  
 
 "Alt-Left
-nmap <A-left> :MBEbn<CR>  
+"nmap <A-left> :MBEbn<CR>  
 
 "Close buffer tab
-nmap <C-c> :MBEbd<CR>
+"nmap <C-c> :MBEbd<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=================== Copy file path ====================="
@@ -453,14 +455,14 @@ let g:airline_symbols.linenr = "\u2b61"
 
 
 " enable tabline
-"set showtabline=2 
-"let g:airline#extensions#tabline#enabled = 1
+set showtabline=2 
+let g:airline#extensions#tabline#enabled = 1
 "let g:airline#extensions#tabline#left_sep = "\u2b80"
 "let g:airline#extensions#tabline#left_alt_sep = "\u2b81"
 
-"let g:airline#extensions#tabline#formatter = 'unique_tail'
-"let g:airline#extensions#tabline#formatter = ':t'
-"let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#fnamemod = ':t'
+"let g:airline#extensions#tabline#fnamemod = ':p:.'
 
 
 "* the separator used on the left side >
