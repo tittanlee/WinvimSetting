@@ -219,7 +219,10 @@ let g:ctrlp_tjump_only_silent = 1
 "================== Ag plugin config ===================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <leader>ag :Ag
-let g:ag_prg="ag -C 2 
+let g:ag_prg="ag --vimgrep
+      \ --ignore cscope.files
+      \ --ignore cscope.out
+      \ --ignore tags
       \ --ignore-dir Build
       \ --ignore-dir uefi64nots
       \ --ignore-dir uefi64ddt"
@@ -232,6 +235,7 @@ let g:ag_highlight=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================ CagtrlSF plugin config =================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap     <leader>sfq <Plug>CtrlSFQuickfixPrompt
 nmap     <leader>sf <Plug>CtrlSFPrompt
 vmap     <leader>sf <Plug>CtrlSFVwordPath
 vmap     <leader>sF <Plug>CtrlSFVwordExec
@@ -243,8 +247,8 @@ inoremap <leader>st <Esc>:CtrlSFToggle<CR>
 
 let g:ctrlsf_ackprg = 'ag'
 "let g:ctrlsf_case_sensitive = 'yes'
-let g:ctrlsf_context = '-C 3'
-let g:ctrlsf_ignore_dir = ['Build', '.git']
+let g:ctrlsf_context = '-B 5 -A 3'
+let g:ctrlsf_ignore_dir = ['Build', '.git', 'cscope.files', 'cscope.out', 'tags']
 
 "let g:ctrlsf_position = 'bottom'
 let g:ctrlsf_mapping = {
@@ -252,6 +256,10 @@ let g:ctrlsf_mapping = {
       \ "prev": "N",
       \ }
 
+let g:ctrlsf_auto_close = 0
+let g:ctrlsf_debug_mode = 0
+let g:ctrlsf_winsize = '30%'
+let g:ctrlsf_position = 'bottom'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Tags List config ===================="
@@ -316,7 +324,7 @@ nmap t :TagbarToggle<CR>
 nmap <A-w>  :NERDTreeToggle <CR>
 nmap <leader>ed :e %:p:h <CR>
 
-let NERDTreeWinPos = "right"
+"let NERDTreeWinPos = "right"
 
 " 控制当光标移动超过一定距离时，是否自动将焦点调整到屏中心
 let NERDTreeAutoCenter = 1
@@ -347,6 +355,7 @@ let NERDTreeShowHidden=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================ NERD_commenter config ================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap mm <Plug>Vm_toggle_sign
 nmap mn <plug>Vm_goto_next_sign
 nmap mp <Plug>Vm_goto_prev_sign
 
