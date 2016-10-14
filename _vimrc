@@ -34,9 +34,9 @@ Plugin 'godlygeek/csapprox'
 "Plugin 'fholgado/minibufexpl.vim'
 "Plugin 'ap/vim-buftabline'
 Plugin 'jlanzarotta/bufexplorer'
+Plugin 'maxbrunsfeld/vim-yankstack'
 
-
-Plugin 'vim-scripts/lookupfile'
+"Plugin 'vim-scripts/lookupfile'
 Plugin 'vim-scripts/genutils'
 
 
@@ -92,7 +92,7 @@ let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 syntax enable
 syntax on
-colorscheme candycode
+colorscheme solarized
 
 " Line highlight 設此是游標整行會標註顏色
 set cursorline 
@@ -108,8 +108,8 @@ autocmd BufReadPost * if line("'\"") && line("'\"") <= line("$") | exe "normal `
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======== Auto reload vimrc when editing it ============="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <leader>ev :e ~/_vimrc <cr>
-nmap <leader>sv :source ~/_vimrc <cr>
+nmap <leader>ev :e $MYvimrc <cr>
+nmap <leader>sv :source $MYvimrc <cr>
 "autocmd! bufwritepost _vimrc source ~/_vimrc
 
 " Bug fixed - Tabline loses color after "sourcing" vimrc
@@ -607,7 +607,7 @@ if has("cscope")
   set csprg=cscope
   set csto=1
   set cst
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
+	set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
   set cspc=3
   set nocsverb
   " add any database in current directory
