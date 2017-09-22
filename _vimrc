@@ -35,8 +35,10 @@ Plugin 'godlygeek/csapprox'
 "Plugin 'ap/vim-buftabline'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'ronakg/quickr-cscope.vim'
+Plugin 'Yggdroot/indentLine'
+Plugin 'vim-scripts/a.vim'
 
-"Plugin 'vim-scripts/lookupfile'
 Plugin 'vim-scripts/genutils'
 
 
@@ -50,7 +52,8 @@ filetype plugin indent on    " required
 
 set noswapfile
 set nocompatible                " be iMproved
-set nu
+set number
+"set relativenumber
 set ruler
 set more
 set mouse=a
@@ -59,7 +62,7 @@ set autoindent
 set backspace=2
 set nobackup
 set ic
-"set autochdir
+set ffs=mac,unix,dos ff=unix
 
 "Vim useing Unicode setting
   let $LANG="zh_TW.UTF-8"
@@ -85,6 +88,18 @@ set showmode            " Show current mode
 set nocp
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"================== Yank to clipboard ====================
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=============== Select the color theme ================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
@@ -92,12 +107,21 @@ let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 syntax enable
 syntax on
-colorscheme solarized
+colorscheme wombat
 
-" Line highlight 設此是游標整行會標註顏色
-set cursorline 
+"" Line highlight 設此是游標整行會標註顏色
+"set cursorline 
+"hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
+highlight Scrollbar ctermfg=NONE ctermbg=darkred ctermfg=white guibg=lightblue guifg=blue
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
 "set cursorcolumn 
-hi cursorline cterm=none ctermbg=darkgrey ctermfg=white
+"hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================自動定位上次文件編輯位置================"
@@ -125,11 +149,12 @@ nmap <leader>sv :source $MYvimrc <cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "====================== tab 鍵設定======================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set softtabstop=2
-set tabstop=2
-set shiftwidth=2
-set expandtab
-au Filetype python setl et ts=2 sw=2 shiftwidth=2
+set tabstop=4       " 设定 tab 长度为4  
+set shiftwidth=4    " 缩进的空格数  
+set expandtab       " 是否在缩进和遇到Tab键时使用空格代替；使用noexpandtab取消设置  
+set autoindent      " 自动缩进  
+set smartindent  
+set cindent         " Automatically adjust the indented length  
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================= 找到關鍵字會亮起來 ==================="
@@ -207,13 +232,21 @@ let g:ctrlp_use_caching = 1
       "\ }
 
 
+let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
+                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "============== CtrlP TJump plugin config ==============="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <c-]> :CtrlPtjump<cr>
-vnoremap <c-]> :CtrlPtjumpVisual<cr>
+"nnoremap <c-]> :CtrlPtjump<cr>
+"vnoremap <c-]> :CtrlPtjumpVisual<cr>
 
-let g:ctrlp_tjump_only_silent = 1
+nmap <leader>j :CtrlPtjump<cr>
+vmap <leader>j :CtrlPtjumpVisual<cr>
+
+
+"let g:ctrlp_tjump_only_silent = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Ag plugin config ===================="
@@ -299,7 +332,7 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ]
 
-" 不加入?行, 防止黑色括?出?, 很???
+" 不加入这行, 防止黑色括号出现, 很难识别
 " " \ ['black',       'SeaGreen3'],
 "
 let g:rbpt_max = 16
@@ -315,6 +348,7 @@ au Syntax * RainbowParenthesesLoadBraces
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 0
+let g:tagbar_foldlevel = 2
 nmap t :TagbarToggle<CR>
 
 
@@ -322,7 +356,7 @@ nmap t :TagbarToggle<CR>
 "================== NERDtree config ========================"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <A-w>  :NERDTreeToggle <CR>
-nmap <leader>ed :e %:p:h <CR>
+nmap <A-d>  :NERDTree %:h  <CR>
 
 "let NERDTreeWinPos = "right"
 
@@ -353,11 +387,12 @@ let NERDTreeShowHidden=1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"================ NERD_commenter config ================="
+"================== Visul-Mark config ==================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap mm <Plug>Vm_toggle_sign
 nmap mn <plug>Vm_goto_next_sign
 nmap mp <Plug>Vm_goto_prev_sign
+nmap mf :sign unplace * <CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -392,12 +427,6 @@ let NERD_c_alt_style=1
 "let g:did_minibufexplorer_syntax_inits = 1
 
 "autocmd BufRead,BufNew,BufWritePost :call MiniBufExplorer
-
-"Alt-Right
-"nmap <A-right> :MBEbp<CR>  
-
-"Alt-Left
-"nmap <A-left> :MBEbn<CR>  
 
 "Close buffer tab
 "nmap <C-c> :MBEbd<CR>
@@ -489,17 +518,18 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 nmap <A-Left>  :bp <cr>
 nmap <A-right> :bn <cr>
-nmap <C-c>     :bd <cr>
+"nmap <C-c> :bd <cr>
+nnoremap <C-c> :bp\|bd #<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=============== SrcExpl plugin setting =================" 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " // The switch of the Source Explorer 
-nmap <A-c> :SrcExplToggle<CR> 
+nmap <A-c> :bo SrcExplToggle<CR> 
 
 " // Set the height of Source Explorer window 
-let g:SrcExpl_winHeight = 5
+let g:SrcExpl_winHeight = 6
 
 " // Set 100 ms for refreshing the Source Explorer 
 let g:SrcExpl_refreshTime = 750
@@ -523,9 +553,9 @@ let g:SrcExpl_isUpdateTags = 0
 " // below listaccording to the command ":buffers!"                            "
  let g:SrcExpl_pluginList = [
          \ "_NERD_tree_",
-         \ "-MiniBufExplorer-",
-         \ "__Tagbar__"
-     \ ]
+         \ "__Tagbar__",
+         \ "ControlP",
+         \ ]
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -537,85 +567,22 @@ nmap <leader>svnr <Plug>VCSRevert
 nmap <leader>svnl <Plug>VCSLog
 
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"============== LookUpFile plugin setting ===============" 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Lookup File
-" Author: happyvim
-" Function: ProjectTagUpdateLookupFile
-" Args:
-" Description: regenerate lookupfile tags
-function! ProjectTagUpdateLookupFile()
-  echo "generate lookupfile.tag"
-  if filereadable(g:project_lookup_file)
-    call delete(g:project_lookup_file)
-  endif
-  execute "cd " .  g:this_project_base_dir
-  let l:lookup_tags = ["!_TAG_FILE_SORTED   2   //2=foldcase//"] 
-
-  if has("win32")
-    let l:this_project_base_dir = substitute(g:this_project_base_dir, "/", "\\", "g") . "\\"
-  else
-    let l:this_project_base_dir = g:this_project_base_dir
-  endif
-  let l:lookup_tags_file_string = system(g:project_find_program . " " . g:project_find_param)
-  let l:lookup_tags_file_list = split(l:lookup_tags_file_string, '\n')
-  let l:lookup_tags_file_list = sort(l:lookup_tags_file_list)
-
-  let l:item = ""
-  let l:count = 0 
-  for l:item in l:lookup_tags_file_list
-    let l:item = fnamemodify(l:item, ':t') . "\t" . l:item . "\t" . "1"
-    let l:lookup_tags_file_list[l:count] = l:item
-    let l:count = l:count + 1
-  endfor 
-  call extend(l:lookup_tags, l:lookup_tags_file_list)
-  call writefile(l:lookup_tags, g:project_lookup_file)
-  echo "generate lookupfile tag done"
-endfunction
-
-"ag -l --ignore *.exe;*.pdf; --ignore-dir Build . > cscope.files
-let g:project_lookup_file = "LookUpFile.tag"
-let g:project_find_program = "ag"
-let g:project_find_param = "-l --search-binary --ignore *.exe;*.pdf; --ignore-dir Build"
-let g:this_project_base_dir = "."
-"映射LookupFile为,ff
-nmap <silent> <leader>bf :call ProjectTagUpdateLookupFile()<CR>
-
-let g:LookupFile_MinPatLength = 2               "最少输入2个字符才开始查找
-let g:LookupFile_PreserveLastPattern = 0        "不保存上次查找的字符串
-let g:LookupFile_PreservePatternHistory = 1     "保存查找历史
-let g:LookupFile_AlwaysAcceptFirst = 1          "回车打开第一个匹配项目
-let g:LookupFile_AllowNewFiles = 0              "不允许创建不存在的文件
-let g:LookupFile_DisableDefaultMap = 1
-let g:LookupFile_UsingSpecializedTags = 1
-"使用自定义tag文件(注意双层括号，不能省略)"
-let g:LookupFile_TagExpr = '"LookUpFile.tag"'
-
-"搜索文件 映射LookupFile为,t
-"nmap <silent> <leader>t :LookupFile<CR>
-nmap <silent> <leader>t :LookupFile<CR>
-
-
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=============== Cscope plugin setting =================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if has("cscope")
-  set csprg=cscope
-  set csto=1
-  set cst
-	set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
-  set cspc=3
-  set nocsverb
-  " add any database in current directory
-  if filereadable("cscope.out")
-    cs add cscope.out
-  endif
-  set csverb
-endif
+"if has("cscope")
+"  set csprg=cscope
+"  set csto=1
+"  set cst
+"  set cscopequickfix=s-,c-,d-,i-,t-,e-
+"  set cspc=3
+"  set nocsverb
+"  " add any database in current directory
+"  if filereadable("cscope.out")
+"    cs add cscope.out
+"  endif
+"  set csverb
+"endif
 
 " s: Find this C symbol
 " g: Find this definition
@@ -625,15 +592,26 @@ endif
 " f: Find this file
 " i: Find files #including this file
 " d: Find functions called by this function
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+"nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+"nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
+let g:quickr_cscope_use_qf_g = 1
+let g:quickr_cscope_keymaps = 0
+let g:quickr_cscope_prompt_length = 1
+nmap <C-\>s <plug>(quickr_cscope_symbols)
+nmap <C-\>g <plug>(quickr_cscope_global)
+nmap <C-\>c <plug>(quickr_cscope_callers)
+nmap <C-\>f <plug>(quickr_cscope_files)
+nmap <C-\>i <plug>(quickr_cscope_includes)
+nmap <C-\>t <plug>(quickr_cscope_text)
+nmap <C-\>e <plug>(quickr_cscope_egrep)
+nmap <C-\>d <plug>(quickr_cscope_functions)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "============= bufexplorer plugin setting ==============="
@@ -643,6 +621,19 @@ let g:bufExplorerVertSize=40
 
 " Split right.
 let g:bufExplorerSplitRight=1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"================= IndentLine plugin =====================
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let g:indentLine_showFirstIndentLevel = 1
+
+let g:indentLine_concealcursor = 'inc'
+"let g:indentLine_conceallevel = 1
+
+nmap <leader>ls :LeadingSpaceToggle<CR>
+nmap <Leader>lt :IndentLinesToggle<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======== Statusline Always hide the statusline ========="
@@ -654,18 +645,18 @@ let g:bufExplorerSplitRight=1
 "set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
 "set statusline=%F\ %h%1*%m%r%w%0*[%{strlen(&filetype)?&filetype:'none'},%{&encoding},%{&fileformat}]%=%-14.(%l,%c%V%)\ %<%p%%\ \ \ [%L]\ \ \ %{strftime('%y-%m-%d\ %A')}
 
-function! CurDir()
-  let curdir = substitute(getcwd(), $HOME, "~", "")
-  return curdir
-endfunction
+"function! CurDir()
+"  let curdir = substitute(getcwd(), $HOME, "~", "")
+"  return curdir
+"endfunction
 
-function! HasPaste()
-  if &paste
-    return '[PASTE]'
-  else
-    return ''
-  endif
-endfunction
+"function! HasPaste()
+"  if &paste
+"    return '[PASTE]'
+"  else
+"    return ''
+"  endif
+"endfunction
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -749,11 +740,12 @@ omap <F4> <Esc> :q!<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======================= F5 key ========================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F5> :A<CR>
-cmap <F5> <Esc> :A<CR>
-imap <F5> <Esc> :A<CR>
-vmap <F5> <Esc> :A<CR>
-omap <F5> <Esc> :A<CR>
+let g:alternateSearchPath = 'sfr:./inc'
+nmap <F5> :A <CR>
+cmap <F5> <Esc> :A <CR>
+imap <F5> <Esc> :A <CR>
+vmap <F5> <Esc> :A <CR>
+omap <F5> <Esc> :A <CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======================= F6 key ========================="
@@ -792,7 +784,11 @@ omap <F7> <Esc> :set hls!<BAR>set hls?<CR>
 "vmap <F9> <Esc> :%!xxd<CR>
 "omap <F9> <Esc> :%!xxd<CR>
 
-nmap <F9> :!Build<CR>
+nmap <F9> :TagbarToggle<cr> :NERDTreeToggle<cr>
+cmap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
+imap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
+vmap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
+omap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "====================== F10 key ========================="
@@ -837,3 +833,19 @@ map <silent> <leader><F2>
         \set guioptions+=T <Bar>
         \set guioptions+=m <Bar>
     \endif<CR>
+    
+    
+    
+    
+# Tittan added
+"ctcs () {
+"    rm -rf tags cscope.* cscope*
+"    ag -l --search-binary --ignore-dir *.bin --ignore-dir *.dat --ignore-dir Output . > cscope.files
+"    cp cscope.files cscope.tag
+"    sed -i 's/^/"/g' cscope.files
+"    sed -i 's/$/"/g' cscope.files
+"    ctags -R --exclude=Output --sort=foldcase --C-kinds=+lpx --C++-kinds=+p --fields=+iaS --extra=+q -L cscope.tag
+"    rm -rf sed* cscope.tag
+"    cscope -bk -i cscope.files;
+"}
+    
