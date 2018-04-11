@@ -2,8 +2,10 @@
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/vimfiles/bundle/Vundle.vim
-call vundle#begin('~/vimfiles/bundle')
+" set rtp+=~/vimfiles/bundle/Vundle.vim
+" call vundle#begin('~/vimfiles/bundle')
+set rtp+=$HOME/.vim/bundle/Vundle.vim/
+call vundle#begin('$HOME/.vim/bundle/')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -13,7 +15,9 @@ Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ervandew/supertab'
-Plugin 'vim-scripts/Visual-Mark'
+"Plugin 'vim-scripts/Visual-Mark'
+Plugin 'kshenoy/vim-signature'
+
 Plugin 'AdamWhittingham/vim-copy-filename'
 Plugin 'flazz/vim-colorschemes' 
 Plugin 'kien/rainbow_parentheses.vim'
@@ -38,6 +42,9 @@ Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'ronakg/quickr-cscope.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'vim-scripts/a.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'dkprice/vim-easygrep'
 
 Plugin 'vim-scripts/genutils'
 
@@ -50,13 +57,14 @@ filetype plugin indent on    " required
 
 
 
+set showcmd
 set noswapfile
 set nocompatible                " be iMproved
 set number
 "set relativenumber
 set ruler
 set more
-set mouse=a
+"set mouse=a
 set mousetime=2000
 set autoindent
 set backspace=2
@@ -102,23 +110,23 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=============== Select the color theme ================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256
-let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
+"set t_Co=256
+"let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 syntax enable
 syntax on
 colorscheme wombat
 
 "" Line highlight 設此是游標整行會標註顏色
-"set cursorline 
-"hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
-highlight Scrollbar ctermfg=NONE ctermbg=darkred ctermfg=white guibg=lightblue guifg=blue
+set cursorline 
+highlight CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+"highlight Scrollbar    ctermfg=NONE ctermbg=darkred ctermfg=white guibg=lightblue guifg=blue
 
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
+"augroup CursorLine
+"  au!
+"  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"  au WinLeave * setlocal nocursorline
+"augroup END
 
 "set cursorcolumn 
 "hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
@@ -191,7 +199,7 @@ let g:ctrlp_working_path_mode = 'wra'
 " Show dotfiles
 let g:ctrlp_show_hidden = 1
 
-let g:ctrlp_max_depth = 40
+let g:ctrlp_max_depth = 80
 
 " Set delay to prevent extra search
 let g:ctrlp_lazy_update = 1
@@ -208,7 +216,7 @@ let g:ctrlp_by_filename = 1
 "let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 " Windows
 "let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  
-let g:ctrlp_user_command = 'ag -i --ignore-dir Build -g "" %s'
+let g:ctrlp_user_command = 'ag -i -g "" %s'
 "let g:ctrlp_user_command = 'ag -i --nocolor --nogroup --hidden 
       "\ --ignore .git
       "\ --ignore .svn
@@ -218,7 +226,7 @@ let g:ctrlp_user_command = 'ag -i --ignore-dir Build -g "" %s'
 
 "?置CtrlP的位置, 默??把CtrlP放在底部，你也可以?置成top
 "order:ttb 查找文件光??上到下 order:btt ?下到上
-let g:ctrlp_match_window = 'buttom,order:ttb,min:1,max:10,results:70'
+let g:ctrlp_match_window = 'buttom,order:ttb,min:1,max:10,results:500'
 let g:ctrlp_use_caching = 1
 "let g:ctrlp_clear_cache_on_exit = 1
 
@@ -232,8 +240,8 @@ let g:ctrlp_use_caching = 1
       "\ }
 
 
-let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
-                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
+"let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
+"                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -249,16 +257,36 @@ vmap <leader>j :CtrlPtjumpVisual<cr>
 "let g:ctrlp_tjump_only_silent = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"================== CtrlP funkey ========================"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let g:ctrlp_funky_matchtype = 'path'
+"let g:ctrlp_funky_syntax_highlight = 1
+
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Ag plugin config ===================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"UEFI bios file type"
+" .c .h .asm .asm16 .nasm .S
+" .asl
+" .fdf .inf .dec .uni .vfr
+" .mak
+" .cif .sdl .sd
+
 nmap <leader>ag :Ag
+nmap <leader>agsdl  :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.inf --ignore=*.fdf
+nmap <leader>agdesc :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.cif --ignore=*.sdl
+nmap <leader>agasl  :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.cif --ignore=*.fdf --ignore=*.vfr --ignore=*.dec --ignore=*.uni
+
+nmap <leader>aga :AgAdd
 let g:ag_prg="ag --vimgrep
       \ --ignore cscope.files
       \ --ignore cscope.out
-      \ --ignore tags
-      \ --ignore-dir Build
-      \ --ignore-dir uefi64nots
-      \ --ignore-dir uefi64ddt"
+      \ --ignore tags"
 
 let g:ag_working_path_mode='r'
 let g:ag_highlight=1
@@ -349,16 +377,18 @@ au Syntax * RainbowParenthesesLoadBraces
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 0
 let g:tagbar_foldlevel = 2
-nmap t :TagbarToggle<CR>
+nmap t :let g:tagbar_left = 1<CR>:TagbarToggle<CR>
+nmap <A-t> :let g:tagbar_left = 0<CR> :TagbarToggle<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== NERDtree config ========================"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <A-w>  :NERDTreeToggle <CR>
-nmap <A-d>  :NERDTree %:h  <CR>
+"nmap <A-w>  :NERDTreeCWD<CR>
+"nmap <A-d>  :NERDTree %:h  <CR>
+"nmap <A-d>  :NERDTreeFind <CR>
 
-"let NERDTreeWinPos = "right"
+let NERDTreeWinPos = "right"
 
 " 控制当光标移动超过一定距离时，是否自动将焦点调整到屏中心
 let NERDTreeAutoCenter = 1
@@ -384,6 +414,16 @@ let NERDTreeShowHidden=1
 " " 窗口宽
 " let NERDTreeWinSize=31
 "change default arrows
+"
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=============== NERDtree tab config ===================="
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:nerdtree_tabs_open_on_gui_startup = 0
+nmap <A-w>  :NERDTreeTabsToggle <CR>
+nmap <A-d>  :NERDTreeTabsFind  <CR>
+"nmap <A-d>  :NERDTreeFind <CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -401,7 +441,12 @@ nmap mf :sign unplace * <CR>
 map cx <plug>NERDCommenterUncomment
 map cc <plug>NERDCommenterComment
 map cb <plug>NERDCommenterAlignBoth
-let NERD_c_alt_style=1
+let g:NERDCustomDelimiters = {
+            \ 'inform': { 'left': '# ', 'leftAlt': '#', 'rightAlt': '#' },
+            \ 'uefi': { 'left': '# ', 'leftAlt': '#', 'rightAlt': '#' },
+            \ 'sdl': { 'left': '# ', 'leftAlt': '#', 'rightAlt': '#' },
+            \ }
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "=================== MiniBufExplorer ===================="
@@ -472,7 +517,7 @@ nmap F v%zfzz
 " set status line
 set laststatus=2
 let g:airline_powerline_fonts=1 
-let g:airline_theme='wombat'
+let g:airline_theme='hybridline'
 let g:airline_section_b = '%{getcwd()}'
 let g:airline_section_c = '%F'
 let g:airline#extensions#whitespace#enabled = 0
@@ -491,35 +536,17 @@ let g:airline_symbols.branch = "\u2b60"
 let g:airline_symbols.readonly = "\u2b64"
 let g:airline_symbols.linenr = "\u2b61"
 
-
 " enable tabline
 set showtabline=2 
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep = "\u2b80"
-"let g:airline#extensions#tabline#left_alt_sep = "\u2b81"
-
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#fnamemod = ':t'
-"let g:airline#extensions#tabline#fnamemod = ':p:.'
 
 
-"* the separator used on the left side >
-"let g:airline_left_sep='>'
-
-"* the separator used on the right side >
-"let g:airline_right_sep='<'
-
-" set left separator which are not editting
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-
-" show buffer number
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-
-
-nmap <A-Left>  :bp <cr>
-nmap <A-right> :bn <cr>
-"nmap <C-c> :bd <cr>
-nnoremap <C-c> :bp\|bd #<CR>
+nmap <A-Left>  :bp <cr> zz
+nmap <A-right> :bn <cr> zz
+nmap <C-c> :Bdelete <cr>
+"nnoremap <C-c> :bp\|bd #<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -695,10 +722,10 @@ nmap <silent> <C-right> :wincmd l<CR>
 "================== ALT 鍵 + 上下左右 =================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Up
-nmap <A-Up> :copen<CR>  
+nmap <A-Up> :bo copen<CR>  
 
 "Down
-nmap <A-Down> :cclose<CR>
+nmap <A-Down> :bo cclose<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -713,20 +740,20 @@ nmap <A-Down> :cclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======================= F2 key ========================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F2> :w<cr>
-cmap <F2> <Esc> :w<CR>
-imap <F2> <Esc> :w<CR>
-vmap <F2> <Esc> :w<CR>
-omap <F2> <Esc> :w<CR>
+nmap <F2> :w! <cr>
+cmap <F2> <Esc> :w! <CR>
+imap <F2> <Esc> :w! <CR>
+vmap <F2> <Esc> :w! <CR>
+omap <F2> <Esc> :w! <CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======================= F3 key ========================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F3> :wq!<CR>
-cmap <F3> <Esc> :wq!<CR>
-imap <F3> <Esc> :wq!<CR>
-vmap <F3> <Esc> :wq!<CR>
-omap <F3> <Esc> :wq!<CR>
+"nmap <F3> :wq!<CR>
+"cmap <F3> <Esc> :wq!<CR>
+"imap <F3> <Esc> :wq!<CR>
+"vmap <F3> <Esc> :wq!<CR>
+"omap <F3> <Esc> :wq!<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======================= F4 key ========================="
@@ -784,11 +811,11 @@ omap <F7> <Esc> :set hls!<BAR>set hls?<CR>
 "vmap <F9> <Esc> :%!xxd<CR>
 "omap <F9> <Esc> :%!xxd<CR>
 
-nmap <F9> :TagbarToggle<cr> :NERDTreeToggle<cr>
-cmap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
-imap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
-vmap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
-omap <F9> <ESC> :TagbarToggle<cr> :NERDTreeToggle<cr>
+nmap <F9> :TagbarToggle<cr> :NERDTreeTabsToggle<cr>
+cmap <F9> <ESC> :TagbarToggle<cr> :NERDTreeTabsToggle<cr>
+imap <F9> <ESC> :TagbarToggle<cr> :NERDTreeTabsToggle<cr>
+vmap <F9> <ESC> :TagbarToggle<cr> :NERDTreeTabsToggle<cr>
+omap <F9> <ESC> :TagbarToggle<cr> :NERDTreeTabsToggle<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "====================== F10 key ========================="
@@ -837,7 +864,7 @@ map <silent> <leader><F2>
     
     
     
-# Tittan added
+" Tittan added
 "ctcs () {
 "    rm -rf tags cscope.* cscope*
 "    ag -l --search-binary --ignore-dir *.bin --ignore-dir *.dat --ignore-dir Output . > cscope.files
