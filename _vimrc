@@ -257,16 +257,6 @@ vmap <leader>j :CtrlPtjumpVisual<cr>
 "let g:ctrlp_tjump_only_silent = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"================== CtrlP funkey ========================"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let g:ctrlp_funky_matchtype = 'path'
-"let g:ctrlp_funky_syntax_highlight = 1
-
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Ag plugin config ===================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -631,6 +621,8 @@ nmap <leader>svnl <Plug>VCSLog
 let g:quickr_cscope_use_qf_g = 1
 let g:quickr_cscope_keymaps = 0
 let g:quickr_cscope_prompt_length = 1
+let g:quickr_cscope_program = "gtags-cscope"
+let g:quickr_cscope_db_file = "GTAGS"
 nmap <C-\>s <plug>(quickr_cscope_symbols)
 nmap <C-\>g <plug>(quickr_cscope_global)
 nmap <C-\>c <plug>(quickr_cscope_callers)
