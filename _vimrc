@@ -45,6 +45,7 @@ Plugin 'vim-scripts/a.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'dkprice/vim-easygrep'
+Plugin 'Yggdroot/LeaderF'
 
 Plugin 'vim-scripts/genutils'
 
@@ -255,6 +256,13 @@ vmap <leader>j :CtrlPtjumpVisual<cr>
 
 
 "let g:ctrlp_tjump_only_silent = 1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"================== LeaderF Plugin ======================"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:Lf_WindowHeight = 0.3
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Ag plugin config ===================="
