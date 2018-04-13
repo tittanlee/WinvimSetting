@@ -33,7 +33,7 @@ Plugin 'rking/ag.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'wesleyche/SrcExpl'
 Plugin 'vim-scripts/vcscommand.vim'
-Plugin 'chrisbra/vim-diff-enhanced'
+"Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'godlygeek/csapprox'
 "Plugin 'fholgado/minibufexpl.vim'
 "Plugin 'ap/vim-buftabline'
@@ -41,7 +41,7 @@ Plugin 'jlanzarotta/bufexplorer'
 Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'ronakg/quickr-cscope.vim'
 Plugin 'Yggdroot/indentLine'
-Plugin 'vim-scripts/a.vim'
+"Plugin 'vim-scripts/a.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'dkprice/vim-easygrep'
@@ -182,7 +182,8 @@ set incsearch
 "================ CtrlP plugin config ==================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Change the default mapping and the default command to invoke CtrlP:
-let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_map = '<c-p>'
+let g:ctrlp_map = ''
 let g:ctrlp_cmd = 'CtrlP'
 
 
@@ -261,7 +262,12 @@ vmap <leader>j :CtrlPtjumpVisual<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== LeaderF Plugin ======================"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:Lf_PythonVersion = 2
+let g:Lf_UseVersionControlTool = 0
 let g:Lf_WindowHeight = 0.3
+let g:Lf_PreviewCode = 0
+
+let g:Lf_ShortcutF = '<C-P>'
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -425,12 +431,18 @@ nmap <A-d>  :NERDTreeTabsFind  <CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"================== Visul-Mark config ==================="
+"================== Visual-Mark config =================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap mm <Plug>Vm_toggle_sign
-nmap mn <plug>Vm_goto_next_sign
-nmap mp <Plug>Vm_goto_prev_sign
-nmap mf :sign unplace * <CR>
+"nmap mm <Plug>Vm_toggle_sign
+"nmap mn <plug>Vm_goto_next_sign
+"nmap mp <Plug>Vm_goto_prev_sign
+"nmap mf :sign unplace * <CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"==================== vim-signature ====================="
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
