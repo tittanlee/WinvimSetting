@@ -184,7 +184,8 @@ set incsearch
 "Change the default mapping and the default command to invoke CtrlP:
 "let g:ctrlp_map = '<c-p>'
 let g:ctrlp_map = ''
-let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cmd = ''
 
 
 "When invoked, unless a starting directory is specified, CtrlP will set its
@@ -269,6 +270,8 @@ let g:Lf_PreviewCode = 0
 
 let g:Lf_ShortcutF = '<C-P>'
 
+let g:Lf_DefaultExternalTool = 'rg'
+let g:Lf_ExternalCommand = 'rg "%s" --files --no-ignore'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Ag plugin config ===================="
