@@ -19,7 +19,7 @@ Plugin 'ervandew/supertab'
 Plugin 'kshenoy/vim-signature'
 
 Plugin 'AdamWhittingham/vim-copy-filename'
-Plugin 'flazz/vim-colorschemes' 
+Plugin 'flazz/vim-colorschemes'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'ivalkeen/vim-ctrlp-tjump'
@@ -29,9 +29,9 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'moll/vim-bbye'
 Plugin 'fedorov7/vim-uefi'
 Plugin 'vasconcelloslf/vim-interestingwords'
-Plugin 'rking/ag.vim'
+"Plugin 'rking/ag.vim'
 Plugin 'dyng/ctrlsf.vim'
-Plugin 'wesleyche/SrcExpl'
+"Plugin 'wesleyche/SrcExpl'
 Plugin 'vim-scripts/vcscommand.vim'
 "Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'godlygeek/csapprox'
@@ -46,6 +46,9 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'dkprice/vim-easygrep'
 Plugin 'Yggdroot/LeaderF'
+
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 Plugin 'vim-scripts/genutils'
 
@@ -119,7 +122,7 @@ syntax on
 colorscheme wombat
 
 "" Line highlight 設此是游標整行會標註顏色
-set cursorline 
+set cursorline
 highlight CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 "highlight Scrollbar    ctermfg=NONE ctermbg=darkred ctermfg=white guibg=lightblue guifg=blue
 
@@ -129,7 +132,7 @@ highlight CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred gu
 "  au WinLeave * setlocal nocursorline
 "augroup END
 
-"set cursorcolumn 
+"set cursorcolumn
 "hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -158,12 +161,12 @@ nmap <leader>sv :source $MYvimrc <cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "====================== tab 鍵設定======================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=4       " 设定 tab 长度为4  
-set shiftwidth=4    " 缩进的空格数  
-set expandtab       " 是否在缩进和遇到Tab键时使用空格代替；使用noexpandtab取消设置  
-set autoindent      " 自动缩进  
-set smartindent  
-set cindent         " Automatically adjust the indented length  
+set tabstop=4       " 设定 tab 长度为4
+set shiftwidth=4    " 缩进的空格数
+set expandtab       " 是否在缩进和遇到Tab键时使用空格代替；使用noexpandtab取消设置
+set autoindent      " 自动缩进
+set smartindent
+set cindent         " Automatically adjust the indented length
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================= 找到關鍵字會亮起來 ==================="
@@ -218,9 +221,9 @@ let g:ctrlp_by_filename = 1
 "Use a custom file listing command:
 "let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 " Windows
-"let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  
+"let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
 let g:ctrlp_user_command = 'ag -i -g "" %s'
-"let g:ctrlp_user_command = 'ag -i --nocolor --nogroup --hidden 
+"let g:ctrlp_user_command = 'ag -i --nocolor --nogroup --hidden
       "\ --ignore .git
       "\ --ignore .svn
       "\ --ignore-dir uefi64nots
@@ -284,19 +287,20 @@ let g:Lf_ExternalCommand = 'rg "%s" --files --no-ignore'
 " .mak
 " .cif .sdl .sd
 
-nmap <leader>ag :Ag
-nmap <leader>agsdl  :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.inf --ignore=*.fdf
-nmap <leader>agdesc :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.cif --ignore=*.sdl
-nmap <leader>agasl  :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.cif --ignore=*.fdf --ignore=*.vfr --ignore=*.dec --ignore=*.uni
+"nmap <leader>ag :Ag
+"nmap <leader>agsdl  :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.inf --ignore=*.fdf
+"nmap <leader>agdesc :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.cif --ignore=*.sdl
+"nmap <leader>agasl  :Ag <C-R>=expand("<cword>")<CR> --ignore=*.c --ignore=*.h --ignore=*.cif --ignore=*.fdf --ignore=*.vfr --ignore=*.dec --ignore=*.uni
 
-nmap <leader>aga :AgAdd
-let g:ag_prg="ag --vimgrep
-      \ --ignore cscope.files
-      \ --ignore cscope.out
-      \ --ignore tags"
+"nmap <leader>aga :AgAdd
+"let g:ag_prg="ag --vimgrep
+"      \ --ignore Build
+"      \ --ignore cscope.files
+"      \ --ignore cscope.out
+"      \ --ignore tags"
 
-let g:ag_working_path_mode='r'
-let g:ag_highlight=1
+"let g:ag_working_path_mode='r'
+"let g:ag_highlight=1
 
 
 
@@ -332,16 +336,16 @@ let g:ctrlsf_position = 'bottom'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Tags List config ===================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let Tlist_Show_One_File = 1 " Displaying tags for only one file~
-let Tlist_Use_Right_Window = 0 " split to the right side of the screen
-let Tlist_Sort_Type = "name" " sort by order or name
-let Tlist_Display_Prototype = 0 " do not show prototypes and not tags in the taglist window.
-let Tlist_Compart_Format = 1 " Remove extra information and blank lines from the taglist window.
-let Tlist_GainFocus_On_ToggleOpen = 0 " Jump to taglist window on open.
-let Tlist_Display_Tag_Scope = 1 " Show tag scope next to the tag name.
-let Tlist_Close_On_Select = 0 " Close the taglist window when a file or tag is selected.
-let Tlist_Enable_Fold_Column = 0 " Don't Show the fold indicator column in the taglist window.
-let Tlist_Auto_Update = 1
+"let Tlist_Show_One_File = 1 " Displaying tags for only one file~
+"let Tlist_Use_Right_Window = 0 " split to the right side of the screen
+"let Tlist_Sort_Type = "name" " sort by order or name
+"let Tlist_Display_Prototype = 0 " do not show prototypes and not tags in the taglist window.
+"let Tlist_Compart_Format = 1 " Remove extra information and blank lines from the taglist window.
+"let Tlist_GainFocus_On_ToggleOpen = 0 " Jump to taglist window on open.
+"let Tlist_Display_Tag_Scope = 1 " Show tag scope next to the tag name.
+"let Tlist_Close_On_Select = 0 " Close the taglist window when a file or tag is selected.
+"let Tlist_Enable_Fold_Column = 0 " Don't Show the fold indicator column in the taglist window.
+"let Tlist_Auto_Update = 1
 "let Tlist_WinWidth = 40 "寬度
 "let Tlist_WinHeight = 50 "高度
 "nmap t :Tlist<CR>
@@ -525,11 +529,11 @@ nmap F v%zfzz
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"============= Air line plugin setting ==================" 
+"============= Air line plugin setting =================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set status line
 set laststatus=2
-let g:airline_powerline_fonts=1 
+let g:airline_powerline_fonts=1
 let g:airline_theme='hybridline'
 let g:airline_section_b = '%{getcwd()}'
 let g:airline_section_c = '%F'
@@ -541,7 +545,7 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-let g:airline_left_sep = "\u2b80" 
+let g:airline_left_sep = "\u2b80"
 let g:airline_left_alt_sep = "\u2b81"
 let g:airline_right_sep = "\u2b82"
 let g:airline_right_alt_sep = "\u2b83"
@@ -550,7 +554,7 @@ let g:airline_symbols.readonly = "\u2b64"
 let g:airline_symbols.linenr = "\u2b61"
 
 " enable tabline
-set showtabline=2 
+set showtabline=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -558,35 +562,35 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 nmap <A-Left>  :bp <cr> zz
 nmap <A-right> :bn <cr> zz
-nmap <C-c> :Bdelete <cr>
-"nnoremap <C-c> :bp\|bd #<CR>
+"nmap <C-c> :bd <cr>
+nnoremap <C-c> :bp\|bd #<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"=============== SrcExpl plugin setting =================" 
+"=============== SrcExpl plugin setting ================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" // The switch of the Source Explorer 
-nmap <A-c> :bo SrcExplToggle<CR> 
+" // The switch of the Source Explorer
+nmap <A-c> :bo SrcExplToggle<CR>
 
-" // Set the height of Source Explorer window 
+" // Set the height of Source Explorer window
 let g:SrcExpl_winHeight = 6
 
-" // Set 100 ms for refreshing the Source Explorer 
+" // Set 100 ms for refreshing the Source Explorer
 let g:SrcExpl_refreshTime = 750
 
-" // Set "Enter" key to jump into the exact definition context 
-let g:SrcExpl_jumpKey = "<ENTER>" 
+" // Set "Enter" key to jump into the exact definition context
+let g:SrcExpl_jumpKey = "<ENTER>"
 
-" // Set "Space" key for back from the definition context 
-let g:SrcExpl_gobackKey = "<SPACE>" 
+" // Set "Space" key for back from the definition context
+let g:SrcExpl_gobackKey = "<SPACE>"
 
-" // Enable/Disable the local definition searching, and note that this is not 
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now. 
-" // It only searches for a match with the keyword according to command 'gd' 
+" // Enable/Disable the local definition searching, and note that this is not
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
+" // It only searches for a match with the keyword according to command 'gd'
 let g:SrcExpl_searchLocalDef = 0
 
-" // Do not let the Source Explorer update the tags file when opening 
-let g:SrcExpl_isUpdateTags = 0 
+" // Do not let the Source Explorer update the tags file when opening
+let g:SrcExpl_isUpdateTags = 0
 
 " // In order to avoid conflicts, the Source Explorer should know what plugins "
 " // except itself are using buffers. And you need add their buffer names into "
@@ -599,7 +603,7 @@ let g:SrcExpl_isUpdateTags = 0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"============== vcscommand plugin setting ===============" 
+"============== vcscommand plugin setting ==============="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <leader>svnd <Plug>VCSVimDiff
 nmap <leader>svns <Plug>VCSStatus
@@ -678,6 +682,11 @@ nmap <Leader>lt :IndentLinesToggle<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"==================== vim-easygrep =======================
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:EasyGrepFilesToExclude=".svn,.git,GPATH,GTAGS,GRTAGS,tags"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======== Statusline Always hide the statusline ========="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "set laststatus=2
@@ -737,7 +746,7 @@ nmap <silent> <C-right> :wincmd l<CR>
 "================== ALT 鍵 + 上下左右 =================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Up
-nmap <A-Up> :bo copen<CR>  
+nmap <A-Up> :bo copen<CR>
 
 "Down
 nmap <A-Down> :bo cclose<CR>
@@ -799,15 +808,15 @@ imap <F6> <Esc> :1,$s/<C-R>=expand("<cword>")<CR>//gic<left><left><left><left>
 vmap <F6> <Esc> :1,$s/<C-R>=expand("<cword>")<CR>//gic<left><left><left><left>
 omap <F6> <Esc> :1,$s/<C-R>=expand("<cword>")<CR>//gic<left><left><left><left>
 
-":%s/\r//g                    刪除DOS方式的^M 
-":%s= *$==                   刪除行尾空白 
-":%s/^(.*)n1/1$/             刪除重复行 
-":%s/^.{-}pdf/new.pdf/       只是刪除第一個pdf 
+":%s/\r//g                    刪除DOS方式的^M
+":%s= *$==                   刪除行尾空白
+":%s/^(.*)n1/1$/             刪除重复行
+":%s/^.{-}pdf/new.pdf/       只是刪除第一個pdf
 ":%s/<!--_.{-}-->//          又是刪除多行注釋
-":g/s*^$/d                   刪除所有空行 
-":g!/^dd/d                   刪除不含字符串'dd'的行 
-":v/^dd/d                    同上 （??：v ==&nbspg!，就是不匹配！） 
-":g/str1/,/str2/d            刪除所有第一個含str1到第一個含str2之間的行 
+":g/s*^$/d                   刪除所有空行
+":g!/^dd/d                   刪除不含字符串'dd'的行
+":v/^dd/d                    同上 （??：v ==&nbspg!，就是不匹配！）
+":g/str1/,/str2/d            刪除所有第一個含str1到第一個含str2之間的行
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "======================= F7 key ========================="
@@ -837,7 +846,7 @@ omap <F9> <ESC> :TagbarToggle<cr> :NERDTreeTabsToggle<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <F10> :diffthis<CR>
 "文件合并
-"dp 將當前窗口光標位置處的內容複制到另一個窗口 
+"dp 將當前窗口光標位置處的內容複制到另一個窗口
 "do 將另一窗口光標位置處的內容複制到當前窗口
 "diffupdate 重新比較兩個文件內容，如果手動修改文件的話有時不會自動同步
 
@@ -867,7 +876,7 @@ omap <F12> <Esc> :%s= *$==<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set guioptions-=m
 set guioptions-=T
-map <silent> <leader><F2> 
+map <silent> <leader><F2>
     \:if &guioptions =~# 'T' <Bar>
         \set guioptions-=T <Bar>
         \set guioptions-=m <bar>
@@ -875,10 +884,10 @@ map <silent> <leader><F2>
         \set guioptions+=T <Bar>
         \set guioptions+=m <Bar>
     \endif<CR>
-    
-    
-    
-    
+
+
+
+
 " Tittan added
 "ctcs () {
 "    rm -rf tags cscope.* cscope*
@@ -890,4 +899,4 @@ map <silent> <leader><F2>
 "    rm -rf sed* cscope.tag
 "    cscope -bk -i cscope.files;
 "}
-    
+
