@@ -276,6 +276,18 @@ let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_ExternalCommand = 'rg "%s" --files --no-ignore'
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"================== fzf Plugin ======================"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:fzf_layout = { 'down': '~30%' }
+
+nnoremap <silent> <C-]> :call fzf#vim#tags(expand('<cword>'))<CR>
+nnoremap <silent> <leader>ag :call fzf#vim#ag(expand('<cword>'))<CR>
+
+let g:fzf_buffers_jump = 1
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================== Ag plugin config ===================="
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -507,6 +519,11 @@ nmap <leader>cd :CopyDirectoryPath<CR>:echo "Copied file directory to clipboard"
 
 nmap <leader>e :!start cmd /c "explorer.exe" %:h<CR>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"============== [[ and ]] focus on middle ==============="
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap ]] ]]zz
+nmap [[ [[zz
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "================ Y yanks from cursor to ================"
