@@ -18,7 +18,8 @@ REM ctags -R --sort=foldcase --language-force=C --C-kinds=+cdefglmstpvx --fields
 
 REM === Start - Universal Ctags === 
 REM ctags -R --sort=foldcase  --C-kinds=+defghlmstuvx --fields=+iaS --extras=+q -L cscope.tag
-ctags -R --C-kinds=+defghlmpstuvxz --extras=+q -L cscope.tag
+REM n will tell ctags add a line number filed in each tag record and S means including function signatures.
+ctags -R --C-kinds=+defghlmpstuvxz --extras=+q --fields=+nS -L cscope.tag
 REM === End   - Universal Ctags ===
 
 
